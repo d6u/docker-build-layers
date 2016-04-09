@@ -1,6 +1,6 @@
 {
   "name": "docker-build-layers",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Command line helper to simplify building docker images that have multiple layers.",
   "repository": {
     "type": "git",
@@ -44,9 +44,7 @@
   "scripts": {
     "clean": "rm -rfv lib-es6 lib",
     "pretest": "npm run build",
-    "test": "node test/index.js | tap-spec",
     "build": "tsc && babel --source-maps true --out-dir lib lib-es6",
-    "preversion": "npm test",
     "postversion": "git push && git push --tags",
     "prepublish": "typings install && npm run clean && npm run build"
   }
