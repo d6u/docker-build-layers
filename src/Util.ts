@@ -1,6 +1,6 @@
-import {join, basename, resolve} from 'path';
+import {join, basename, resolve, dirname} from 'path';
 import {wrap} from 'co';
-import template from 'lodash.template';
+import * as template from 'lodash.template';
 import {mkdir as _mkdir, readFile, writeFile} from 'mz/fs';
 import {toPairs, pipe, map, filter, pathEq} from 'ramda';
 import {ImageConfig, BuildConfig, BuildOptions, ImagesConfigMap} from './interfaces';
@@ -44,19 +44,25 @@ wrap<void>(function* (
     `docker build -f ${dfpath} -t ${tag} .` :
     `docker build -f ${dfpath} -t ${tag} --no-cache .`;
   yield exec(cmd);
-  if (config.afterEachCommand && !opts.skipAfterEach) {
-    yield exec(template(config.afterEachCommand)({ tag }));
+  if (config.afterEach && !opts.skipAfterEach) {
+    yield exec(template(config.afterEach)({ tag }));
   }
 });
 
-export function mkdir(dpath: string) {
-  return _mkdir(dpath)
-    .catch((err) => {
-      if (err.code !== 'EEXIST') {
-        throw err;
-      }
-    });
-}
+export const mkdir: (dpath: string) => Promise<void> =
+wrap<void>(function* (dpath: string): IterableIterator<Promise<void>> {
+  try {
+    yield _mkdir(dpath);
+  } catch (err) {
+    if (err.code === 'EEXIST') {
+      return;
+    }
+    if (err.code === 'ENOENT') {
+      yield mkdir(dirname(dpath));
+      yield _mkdir(dpath);
+    }
+  }
+});
 
 export function getImageConfig(config: BuildConfig, name: string): ImageConfig {
   const imageConfig = config.images[name];

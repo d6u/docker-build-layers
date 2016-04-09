@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
 import * as program from 'commander';
-import {join, resolve} from 'path';
-import {tmpdir} from 'os';
-import {mkdir} from 'mz/fs';
+import {join, resolve, dirname} from 'path';
 import {BuildConfig, BuildOptions} from '../src/interfaces';
+import {mkdir} from '../src/Util';
 import build from '../src/build';
 
 interface ProgramOptions {
@@ -22,21 +21,27 @@ const opts: ProgramOptions = program
   .parse(process.argv);
 
 if (opts.list && opts.build) {
-  throw new Error('Cannot specify both --list and --build');
+  console.error('Cannot specify both --list and --build');
+  process.exit(1);
 }
 
 const configPath = resolve('docker-build-layers-config.json');
 const config = require(configPath) as BuildConfig;
+const configDir = dirname(configPath);
 
 if (opts.list) {
   Object.keys(config.images).forEach((name) => console.log(`${name}`));
 } else if (opts.build) {
-  const buildDir = join(tmpdir(), `docker-build-layers-${Date.now().toString()}`);
+  const buildDir = join(configDir, '.tmp', `/docker-build-layers-${Date.now().toString()}`);
   mkdir(buildDir)
     .then(() => {
-      build(config, opts as BuildOptions, opts.build, buildDir, configPath);
+      return build(config, opts as BuildOptions, opts.build, buildDir, configDir);
+    })
+    .then((updatedConfig) => {
+      console.log(updatedConfig);
     })
     .catch((err) => {
+      console.error(err.stack);
       throw err;
     });
 }

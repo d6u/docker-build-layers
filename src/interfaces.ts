@@ -11,7 +11,7 @@ export interface ImagesConfigMap {
 
 export interface BuildConfig {
   prefix?: string;
-  afterEachCommand?: string;
+  afterEach?: string;
   images: ImagesConfigMap;
 }
 
