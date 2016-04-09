@@ -5,8 +5,7 @@
     "module": "commonjs",
     "target": "es6",
     "noImplicitAny": true,
-    "outDir": "lib",
-    "sourceMap": true,
+    "outDir": "lib-es6",
     "declaration": true,
     "listFiles": true,
     "pretty": true

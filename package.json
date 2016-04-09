@@ -34,15 +34,18 @@
     "ramda": "^0.21.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-core": "^6.7.6",
+    "babel-preset-es2015-node4": "^2.1.0",
     "typescript": "^1.8.9",
     "typescript-ramda": "git://github.com/donnut/typescript-ramda.git",
     "typings": "^0.7.12"
   },
   "scripts": {
-    "clean": "rm -rfv lib",
+    "clean": "rm -rfv lib-es6 lib",
     "pretest": "npm run build",
     "test": "node test/index.js | tap-spec",
-    "build": "tsc",
+    "build": "tsc && babel --source-maps true --out-dir lib lib-es6",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
     "prepublish": "typings install && npm run clean && npm run build"

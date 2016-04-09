@@ -34,3 +34,4 @@ node_modules
 
 /lib
 /typings
+/lib-es6
