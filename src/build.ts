@@ -30,9 +30,6 @@ wrap<BuildConfig>(function* (
   const imageName = config.prefix ? `${config.prefix}${name}` : name;
   console.log(`\n\n--> building ${imageName}\n`);
 
-  // const buildDir = join(tmpdir(), `docker-build-layers-${Date.now().toString()}`);
-  // yield mkdir(buildDir);
-
   const imageConfig = getImageConfig(config, name);
   const {version, dockerfile, isTemplate} = imageConfig;
   const newVersion = version + 1;

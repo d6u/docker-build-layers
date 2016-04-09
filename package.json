@@ -18,7 +18,10 @@
     "url": "https://github.com/d6u/docker-build-layers/issues"
   },
   "homepage": "https://github.com/d6u/docker-build-layers#readme",
-  "main": "lib/index.js",
+  "main": "lib/src/index.js",
+  "bin": {
+    "dbl": "lib/bin/dbl.js"
+  },
   "files": [
     "lib",
     "src"
