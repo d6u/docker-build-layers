@@ -1,0 +1,47 @@
+{
+  "name": "docker-build-layers",
+  "version": "1.0.0",
+  "description": "Command line helper to simplify building docker images that have multiple layers.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d6u/docker-build-layers.git"
+  },
+  "keywords": [
+    "docker",
+    "container",
+    "images",
+    "build"
+  ],
+  "author": "Daiwei Lu <daiweilu123@gmail.com> (http://daiwei.lu/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/d6u/docker-build-layers/issues"
+  },
+  "homepage": "https://github.com/d6u/docker-build-layers#readme",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "co": "^4.6.0",
+    "commander": "^2.9.0",
+    "lodash.template": "^4.2.4",
+    "mz": "^2.4.0",
+    "ramda": "^0.21.0"
+  },
+  "devDependencies": {
+    "typescript": "^1.8.9",
+    "typescript-ramda": "git://github.com/donnut/typescript-ramda.git",
+    "typings": "^0.7.12"
+  },
+  "scripts": {
+    "clean": "rm -rfv lib",
+    "pretest": "npm run build",
+    "test": "node test/index.js | tap-spec",
+    "build": "tsc",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags",
+    "prepublish": "typings install && npm run clean && npm run build"
+  }
+}

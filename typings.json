@@ -1,0 +1,7 @@
+{
+  "ambientDependencies": {
+    "commander": "registry:dt/commander#2.3.0+20160317120654",
+    "mz": "registry:dt/mz#0.0.0+20160217153523",
+    "node": "registry:dt/node#4.0.0+20160330064709"
+  }
+}
