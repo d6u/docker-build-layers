@@ -3,6 +3,7 @@
 import * as program from 'commander';
 import {join, resolve, dirname} from 'path';
 import {BuildConfig, BuildOptions} from '../src/interfaces';
+import {writeFile} from 'mz/fs';
 import {mkdir} from '../src/Util';
 import build from '../src/build';
 
@@ -38,7 +39,7 @@ if (opts.list) {
       return build(config, opts as BuildOptions, opts.build, buildDir, configDir);
     })
     .then((updatedConfig) => {
-      console.log(updatedConfig);
+      return writeFile(configPath, JSON.stringify(updatedConfig, null, 2), 'utf8');
     })
     .catch((err) => {
       console.error(err.stack);
