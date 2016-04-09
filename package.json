@@ -1,6 +1,6 @@
 {
   "name": "docker-build-layers",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Command line helper to simplify building docker images that have multiple layers.",
   "repository": {
     "type": "git",
