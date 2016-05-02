@@ -1,4 +1,4 @@
-import {join, basename, resolve, dirname} from 'path';
+import {join, basename, resolve, dirname, relative} from 'path';
 import {wrap} from 'co';
 import * as template from 'lodash.template';
 import {mkdir as _mkdir, readFile, writeFile} from 'mz/fs';
@@ -41,8 +41,8 @@ wrap<void>(function* (
   opts: BuildOptions) {
 
   const cmd = opts.useCache ?
-    `docker build -f ${dfpath} -t ${tag} .` :
-    `docker build -f ${dfpath} -t ${tag} --no-cache .`;
+    `docker build -f ${relative(process.cwd(), dfpath)} -t ${tag} .` :
+    `docker build -f ${relative(process.cwd(), dfpath)} -t ${tag} --no-cache .`;
   yield exec(cmd);
   if (config.afterEach && !opts.skipAfterEach) {
     yield exec(template(config.afterEach)({ tag }));
